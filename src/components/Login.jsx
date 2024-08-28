@@ -18,8 +18,12 @@ function Login() {
             const session = await authService.login(data)
             if (session) {
                 const userData = await authService.getCurrentUser()
-                if(userData) dispatch(authLogin(userData));
-                navigate("/")
+                console.log("Fetched user data :",userData)
+                if(userData&&userData.$id) {dispatch(authLogin({userData}));
+                navigate("/")}
+                else{
+                    console.error("User data is missing or incomplete:", userData);
+                }
             }
         } catch (error) {
             setError(error.message)
